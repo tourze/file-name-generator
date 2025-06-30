@@ -15,12 +15,12 @@ class RandomNameGeneratorTest extends TestCase
     }
 
     /**
-     * 测试生成的随机名称是否为字符串类型
+     * 测试生成的随机名称不为空
      */
-    public function testGenerateRandomName_returnsString(): void
+    public function testGenerateRandomName_returnsNonEmptyString(): void
     {
         $result = $this->generator->generateRandomName();
-        $this->assertIsString($result);
+        $this->assertNotEmpty($result);
     }
     
     /**
