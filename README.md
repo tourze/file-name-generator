@@ -1,51 +1,94 @@
-# FileNameGenerator
+# File Name Generator
 
-一个简单的文件名生成器，用于生成随机的、基于日期结构的文件名。
+[English](README.md) | [中文](README.zh-CN.md)
 
-## 安装
+[![PHP Version](https://img.shields.io/packagist/php-v/tourze/file-name-generator.svg?style=flat-square)](https://packagist.org/packages/tourze/file-name-generator)
+[![Latest Version](https://img.shields.io/packagist/v/tourze/file-name-generator.svg?style=flat-square)](https://packagist.org/packages/tourze/file-name-generator)
+[![License](https://img.shields.io/packagist/l/tourze/file-name-generator.svg?style=flat-square)](https://packagist.org/packages/tourze/file-name-generator)
+[![Total Downloads](https://img.shields.io/packagist/dt/tourze/file-name-generator.svg?style=flat-square)](https://packagist.org/packages/tourze/file-name-generator)
+
+A simple file name generator for creating random and date-based structured file names.
+
+## Features
+
+- Generate unique random identifiers using PHP's uniqid function
+- Create date-structured file paths (YYYY/MM/DD format)
+- Support custom path prefixes for flexible file organization
+- Support various file extensions including compound extensions
+- Lightweight with no external dependencies
+
+## Installation
 
 ```bash
 composer require tourze/file-name-generator
 ```
 
-## 基本用法
+## Quick Start
 
-### 生成随机名称
+### Generate Random Names
 
 ```php
+<?php
+
 use Tourze\FileNameGenerator\RandomNameGenerator;
 
 $generator = new RandomNameGenerator();
 
-// 生成一个随机字符串
+// Generate a unique random string like "5fd8b23a7a9c1.23456"
 $randomName = $generator->generateRandomName();
+echo $randomName;
 ```
 
-### 生成基于日期的文件名
+### Generate Date-based File Names
 
 ```php
+<?php
+
 use Tourze\FileNameGenerator\RandomNameGenerator;
 
 $generator = new RandomNameGenerator();
 
-// 生成形如 "2023/05/15/5fd8b23a7a9c1.23456.jpg" 的文件名
+// Generate file name like "2024/07/20/5fd8b23a7a9c1.23456.jpg"
 $fileName = $generator->generateDateFileName('jpg');
 
-// 带前缀的文件名，例如 "uploads/2023/05/15/5fd8b23a7a9c1.23456.jpg"
+// Generate with custom prefix like "uploads/2024/07/20/5fd8b23a7a9c1.23456.jpg"
 $fileNameWithPrefix = $generator->generateDateFileName('jpg', 'uploads');
+
+// Support compound extensions like "2024/07/20/5fd8b23a7a9c1.23456.tar.gz"
+$archiveFile = $generator->generateDateFileName('tar.gz');
 ```
 
-## 特性
+### Integration Examples
 
-- 生成唯一的随机标识符
-- 支持基于日期目录结构的文件名生成
-- 支持自定义路径前缀
-- 支持不同文件扩展名
+```php
+<?php
 
-## 测试
+use Tourze\FileNameGenerator\RandomNameGenerator;
 
-运行单元测试：
+class FileUploadService
+{
+    private RandomNameGenerator $nameGenerator;
+    
+    public function __construct()
+    {
+        $this->nameGenerator = new RandomNameGenerator();
+    }
 
-```bash
-./vendor/bin/phpunit packages/file-name-generator/tests
+    public function saveUploadedFile(string $originalExtension): string
+    {
+        $fileName = $this->nameGenerator->generateDateFileName($originalExtension, 'uploads');
+        
+        // Save file logic here...
+        
+        return $fileName;
+    }
+}
 ```
+
+## Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

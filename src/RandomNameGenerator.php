@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tourze\FileNameGenerator;
 
 class RandomNameGenerator
@@ -15,11 +17,12 @@ class RandomNameGenerator
         $fileName = $this->generateRandomName() . '.' . $extension;
 
         $result = [];
-        if (!empty($pathPrefix)) {
+        if ('' !== $pathPrefix) {
             $result[] = $pathPrefix;
         }
         $result[] = $dateStr;
         $result[] = $fileName;
+
         return implode('/', $result);
     }
 }
